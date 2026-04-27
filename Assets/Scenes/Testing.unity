@@ -339,6 +339,11 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
+--- !u!1 &533647665 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6725246035492778246, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
+  m_PrefabInstance: {fileID: 6252930454619769929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &617734704
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,6 +954,7 @@ GameObject:
   - component: {fileID: 1191983170}
   - component: {fileID: 1191983169}
   - component: {fileID: 1191983172}
+  - component: {fileID: 1191983173}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1024,7 +1030,7 @@ Transform:
   m_GameObject: {fileID: 1191983168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.86, y: 4.2, z: -23.43}
+  m_LocalPosition: {x: -16.86, y: 4.2, z: -17.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1074,6 +1080,19 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1191983173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191983168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7ce9b760b1dc342a6919953a5e6a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  Player: {fileID: 533647665}
 --- !u!1 &1913380647
 GameObject:
   m_ObjectHideFlags: 0
