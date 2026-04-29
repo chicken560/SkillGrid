@@ -275,8 +275,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: f96821bbefeea864b9b418af4b8615ac, type: 2}
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1665,7 +1665,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     mode: 0
     timeMode: 0
     fps: 30
@@ -8438,7 +8438,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
-  - {fileID: 0}
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8628,7 +8628,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -10872,7 +10872,7 @@ ParticleSystem:
       m_Bits: 4294967295
     influenceList: []
   ClampVelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -11089,7 +11089,7 @@ ParticleSystem:
     inWorldSpace: 0
     multiplyDragByParticleSize: 1
     multiplyDragByParticleVelocity: 1
-    dampen: 0
+    dampen: 0.02
     drag:
       serializedVersion: 2
       minMaxState: 0
@@ -11144,7 +11144,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
@@ -11305,7 +11305,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.5
+    frequency: 4
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5
@@ -11527,7 +11527,7 @@ ParticleSystem:
     positionAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 44
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13226,7 +13226,7 @@ Transform:
   m_GameObject: {fileID: 1919178798}
   serializedVersion: 2
   m_LocalRotation: {x: -0.051938124, y: 0.7051967, z: -0.7051968, w: 0.051938143}
-  m_LocalPosition: {x: 421.15, y: 23.12, z: 340.7}
+  m_LocalPosition: {x: 416.5, y: 54.2, z: 340.7}
   m_LocalScale: {x: 2.1906495, y: 2.4531672, z: 3.0859}
   m_ConstrainProportionsScale: 0
   m_Children: []
