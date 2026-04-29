@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
     private bool isGrounded = false;
     Rigidbody rb;
+    public GameObject bulletPrefab; // Prefab of the bullet to spawn
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,6 +32,11 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
         }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(bulletPrefab);
+        }
+
     }
 
     void OnCollisionEnter(Collision collision)

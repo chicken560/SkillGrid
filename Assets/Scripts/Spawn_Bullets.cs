@@ -1,7 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Spawn_Bullets : MonoBehaviour
+public class Spawn_bullets : MonoBehaviour
 {
+    public GameObject bulletPrefab; // Prefab of the bullet to spawn
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
