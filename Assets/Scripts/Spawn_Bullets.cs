@@ -1,18 +1,17 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawn_bullets : MonoBehaviour
 {
     public GameObject bulletPrefab; // Prefab of the bullet to spawn
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Transform spawnPoint; // Point from where the bullet will be spawned
+
+    private void Update()
     {
-        
+        if (Input.GetButtonDown("Fire1"))
+        { 
+                Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
