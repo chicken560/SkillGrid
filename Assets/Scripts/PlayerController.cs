@@ -3,13 +3,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public Vector2 move;
-    public void MoveInput(Vector2 newMoveDirection)
+    public float moveSpeed = 5f;
+    public float jumpForce = 5f;
+    void Update()
     {
-        move = newMoveDirection;
-    }
-    public void OnMove(InputValue value)
-    {
-        MoveInput(value.Get<Vector2>());
+        Vector3 moveInput = Vector3.zero;
+        if (Keyboard.current.wKey.isPressed)
+            moveInput.z += 1;
+        if (Keyboard.current.sKey.isPressed)
+            moveInput.z -= 1;
+        if (Keyboard.current.aKey.isPressed)
+            moveInput.x -= 1;
+        if (Keyboard.current.dKey.isPressed)
+            moveInput.x += 1;
+        if (Keyboard.current.spaceKey.isPressed)
+        {   // Jump logic can be implemented here
+            moveInput.y += jumpForce * Time.deltaTime;
+        }
+            moveInput = moveInput.normalized * moveSpeed * Time.deltaTime;
+        transform.Translate(moveInput);
     }
 }
