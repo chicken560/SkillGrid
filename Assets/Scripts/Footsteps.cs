@@ -23,7 +23,7 @@ public class Footsteps : MonoBehaviour
         {
             running.enabled = false;
         }
-        if(Input.GetKey(KeyCode.Space)){
+        if(Input.GetKey(KeyCode.Space)) {
             jump.enabled = true;
             running.enabled = false;
             footsteps.enabled = false;
