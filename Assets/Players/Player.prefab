@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 2988952373066079131}
   - component: {fileID: 2320251182808336395}
   - component: {fileID: 3053157870413012731}
+  - component: {fileID: 6721859837182210372}
   m_Layer: 0
   m_Name: First_person_Camera
   m_TagString: Untagged
@@ -361,6 +362,21 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &6721859837182210372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435233890846104752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec72980442fddac4d86e75ab24b4d027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FirstPersonLook
+  character: {fileID: 5510336264091275105}
+  sensitivity: 2
+  smoothing: 1.5
 --- !u!1 &5490239940709430194
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +500,8 @@ GameObject:
   - component: {fileID: 5510336264091275105}
   - component: {fileID: 7300162127769686504}
   - component: {fileID: 8440913902794201531}
+  - component: {fileID: 7341843916677887097}
+  - component: {fileID: 3851401319278750198}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -550,8 +568,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeeff44aa3767084ea6714ad2de3937e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 10
+  moveSpeed: 5
   jumpForce: 10
+--- !u!114 &7341843916677887097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725246035492778246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &3851401319278750198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725246035492778246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeeff44aa3767084ea6714ad2de3937e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  moveSpeed: 10
+  jumpForce: 5
 --- !u!1 &7302408785886694954
 GameObject:
   m_ObjectHideFlags: 0
