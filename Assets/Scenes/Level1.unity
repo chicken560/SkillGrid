@@ -3578,21 +3578,37 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 490073033}
+    - target: {fileID: 1115160983316327931, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: moveSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115160983316327931, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: searchRadius
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115160983316327931, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: searchSamples
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 3603621665103153673, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
       propertyPath: m_Name
       value: enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3603621665103153673, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3756039335262328956, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 581.7439
+      value: 580
       objectReference: {fileID: 0}
     - target: {fileID: 3756039335262328956, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6068342
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 3756039335262328956, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 519.381
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3756039335262328956, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3621,6 +3637,14 @@ PrefabInstance:
     - target: {fileID: 3756039335262328956, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486520842842992858, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: m_Speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486520842842992858, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: m_Acceleration
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
