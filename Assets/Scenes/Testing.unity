@@ -1210,6 +1210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
   jumpForce: 5
+  playerHealth: 100
 --- !u!1001 &1557107657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1539,7 +1540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlasterFollow
   playerTransform: {fileID: 1200656227}
-  offset: {x: 0.1, y: 0, z: 0}
+  offset: {x: 0.0001, y: 0, z: 0}
   smoothFollow: 1
   smoothSpeed: 10
 --- !u!1660057539 &9223372036854775807
