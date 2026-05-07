@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
+    public float playerHealth = 100f;
     void Update()
     {
         Vector3 moveInput = Vector3.zero;
@@ -20,7 +21,11 @@ public class PlayerController : MonoBehaviour
         {   // Jump logic can be implemented here
             moveInput.y += jumpForce * Time.deltaTime;
         }
-            moveInput = moveInput.normalized * moveSpeed * Time.deltaTime;
+        moveInput = moveInput.normalized * moveSpeed * Time.deltaTime;
         transform.Translate(moveInput);
+    }
+    public void takeDamage(int damage)
+    {
+        playerHealth -= damage; // Example damage value
     }
 }

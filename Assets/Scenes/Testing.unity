@@ -1186,6 +1186,30 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1200656222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6725246035492778246, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
+  m_PrefabInstance: {fileID: 1557107657}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1200656227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5510336264091275105, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
+  m_PrefabInstance: {fileID: 1557107657}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1200656228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200656222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeeff44aa3767084ea6714ad2de3937e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  moveSpeed: 5
+  jumpForce: 5
 --- !u!1001 &1557107657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1204,7 +1228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5510336264091275105, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: -0.87
       objectReference: {fileID: 0}
     - target: {fileID: 5510336264091275105, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1234,14 +1258,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5608764947780740022, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.02
+      objectReference: {fileID: 0}
     - target: {fileID: 6725246035492778246, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8440913902794201531, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6725246035492778246, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1200656228}
   m_SourcePrefab: {fileID: 100100000, guid: 3ca888eb822c9fa4691089eadbb14c27, type: 3}
 --- !u!1 &1913380647
 GameObject:
@@ -1487,19 +1519,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4204536929306921221, guid: 9b8c987357e6f1e4ea3f45440d92fe85, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1853506554353400788}
+      addedObject: {fileID: 1853506554353400789}
   m_SourcePrefab: {fileID: 100100000, guid: 9b8c987357e6f1e4ea3f45440d92fe85, type: 3}
 --- !u!1 &1853506554353400786 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4204536929306921221, guid: 9b8c987357e6f1e4ea3f45440d92fe85, type: 3}
   m_PrefabInstance: {fileID: 1853506554353400785}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1853506554353400787 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6551726117421160847, guid: 9b8c987357e6f1e4ea3f45440d92fe85, type: 3}
-  m_PrefabInstance: {fileID: 1853506554353400785}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1853506554353400788
+--- !u!114 &1853506554353400789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1508,11 +1535,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853506554353400786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734061e0c950c4e4cb92c7746b345d9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d56b919035e8074ca5ba569afeb30c9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Spawn_bullets
-  bulletPrefab: {fileID: 4285124619915347610, guid: dbd9c3e2470e48d4a9b57717365c3259, type: 3}
-  spawnPoint: {fileID: 1853506554353400787}
+  m_EditorClassIdentifier: Assembly-CSharp::BlasterFollow
+  playerTransform: {fileID: 1200656227}
+  offset: {x: 0.1, y: 0, z: 0}
+  smoothFollow: 1
+  smoothSpeed: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
