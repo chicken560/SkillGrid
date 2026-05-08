@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6551726117421160847}
   - component: {fileID: 3136640777340822138}
+  - component: {fileID: 130735323307780162}
   m_Layer: 0
   m_Name: Blaster
   m_TagString: Untagged
@@ -161,6 +162,22 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5632727120701360725, guid: dbd9c3e2470e48d4a9b57717365c3259, type: 3}
   spawnPoint: {fileID: 6551726117421160847}
   bulletSpeed: 50
+--- !u!114 &130735323307780162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204536929306921221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d56b919035e8074ca5ba569afeb30c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlasterFollow
+  playerTransform: {fileID: 0}
+  offset: {x: 0, y: -0.75, z: 1.5}
+  smoothFollow: 1
+  smoothSpeed: 20
 --- !u!1 &9049210833217100960
 GameObject:
   m_ObjectHideFlags: 0

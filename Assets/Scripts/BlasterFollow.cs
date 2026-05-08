@@ -4,16 +4,19 @@ public class BlasterFollow : MonoBehaviour
 {
     [Header("Settings")]
     public Transform playerTransform; // Drag your Player here in the Inspector
-    public Vector3 offset = new Vector3(0.2f, 0.2f, 0.2f); // Your coordinates
+    public Vector3 offset = new Vector3(0.2f, 0.2f, 0.2f); // Local offset relative to player
     public bool smoothFollow = true;
-    public float smoothSpeed = 10f;
+    public float smoothSpeed = 20f;
 
     void LateUpdate()
     {
         if (playerTransform == null) return;
 
-        // Calculate the target position
-        Vector3 targetPosition = playerTransform.position + offset;
+        // Transform offset to world space relative to player's rotation
+        Vector3 worldOffset = playerTransform.TransformDirection(offset);
+
+        // Calculate the target position using the rotated offset
+        Vector3 targetPosition = playerTransform.position + worldOffset;
 
         if (smoothFollow)
         {
