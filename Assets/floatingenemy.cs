@@ -1,71 +1,80 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 [DisallowMultipleComponent]
 public class FloatingEnemy : MonoBehaviour
 {
     [Header("Wander")]
-    [Tooltip("Center point for wandering (if null, uses initial position)")]
     public Transform wanderCenter;
-    [Tooltip("Maximum horizontal radius from center")]
     public float wanderRadius = 6f;
-    [Tooltip("How often the enemy picks a new wander target (seconds)")]
     public float changeTargetInterval = 4f;
-    [Tooltip("Overall speed of movement")]
+    [Tooltip("How fast the agent moves horizontally (NavMeshAgent speed will be set to match).")]
     public float wanderSpeed = 1.6f;
-    [Tooltip("How quickly the enemy turns to face its movement direction")]
     public float turnSpeed = 6f;
 
-    [Header("Vertical drift / bob")]
+    [Header("Vertical / drift")]
     public float bobAmplitude = 0.35f;
     public float bobFrequency = 0.9f;
-    [Tooltip("Small vertical wandering range (added to bob)")]
+    [Tooltip("Vertical noise amount")]
     public float verticalDrift = 0.8f;
+    public float minHeightOffset = -1.5f;
+    public float maxHeightOffset = 3.5f;
 
-    [Header("Perlin noise drift")]
-    [Tooltip("Perlin noise multiplier for organic drifting (x/z)")]
+    [Header("Perlin noise")]
     public float noiseStrength = 0.6f;
-    [Tooltip("Noise speed multiplier")]
     public float noiseSpeed = 0.25f;
-    [Tooltip("Seed for noise so multiple enemies differ")]
-    public float noiseSeed = 0.0f;
+    public float noiseSeed = 0f;
 
-    [Header("Visual / Static effect")]
-    [Tooltip("Renderer whose material will be animated for 'static' shimmer. If left empty, visual effects are skipped.")]
+    [Header("NavMesh hover")]
+    public bool useNavAgentIfAvailable = true;
+    [Tooltip("Height above the NavMesh surface to maintain")]
+    public float hoverHeight = 1.2f;
+    [Tooltip("Radius used when sampling NavMesh near target XZ")]
+    public float navSampleRadius = 2f;
+
+    [Header("Grounding fallback")]
+    public bool useGrounding = true;
+    public LayerMask groundLayer = ~0;
+    public float groundProbeHeight = 3f;
+    public float groundOffset = 0.18f;
+
+    [Header("Visual")]
     public Renderer visualRenderer;
-    [Tooltip("Texture scroll speed for the material's main texture")]
     public Vector2 staticScrollSpeed = new Vector2(0.08f, -0.06f);
-    [Tooltip("How strong the shimmer/emission is (min,max)")]
     public Vector2 staticEmissionRange = new Vector2(0.04f, 0.45f);
-    [Tooltip("How fast the static pulse is")]
     public float staticPulseSpeed = 1.9f;
-
-    [Header("Misc")]
-    [Tooltip("Small uniform scale pulse while drifting")]
     public float scalePulse = 0.03f;
-    [Tooltip("How fast the visual rotates slowly")]
     public float visualSpinSpeed = 12f;
 
     // internals
-    private Vector3 _targetPosition;
+    private NavMeshAgent _agent;
     private Vector3 _wanderCenterPos;
+    private Vector3 _targetPosition;
     private float _targetTimer;
-    private Vector3 _velocity = Vector3.zero;
-    private Material _instancedMaterial;
+    private Vector3 _smoothVel = Vector3.zero;
+    private Vector3 _horizontalVel = Vector3.zero;
+    private float _verticalSmoothVel;
+    private float _currentDesiredY;
+    private float _smoothedY;
+    private float _noiseX;
+    private float _noiseZ;
+    private Material _matInstance;
     private Vector3 _visualBaseLocalPos;
     private Vector3 _visualBaseLocalScale;
     private Quaternion _visualBaseLocalRot;
-    private float _noiseOffsetX;
-    private float _noiseOffsetZ;
+    private float _lastSetTargetTime;
+
+    // tuning for smoothing (exposed if you want later)
+    private const float Y_SMOOTH_TIME = 0.35f;
+    private const float XY_SMOOTH_TIME = 0.35f;
 
     void Awake()
     {
         if (wanderCenter == null)
         {
-            // use a temporary empty transform at this position (keeps inspector clean)
-            GameObject go = new GameObject($"{name}_WanderCenter");
+            var go = new GameObject($"{name}_WanderCenter");
             go.transform.position = transform.position;
             wanderCenter = go.transform;
-            // hide created object in hierarchy
             go.hideFlags = HideFlags.DontSave;
         }
 
@@ -74,109 +83,235 @@ public class FloatingEnemy : MonoBehaviour
 
         if (visualRenderer != null)
         {
-            // use an instance of the material so we don't modify shared material
-            _instancedMaterial = visualRenderer.material;
+            _matInstance = visualRenderer.material;
+            _visualBaseLocalPos = visualRenderer.transform.localPosition;
+            _visualBaseLocalScale = visualRenderer.transform.localScale;
+            _visualBaseLocalRot = visualRenderer.transform.localRotation;
         }
 
-        _visualBaseLocalPos = visualRenderer != null ? visualRenderer.transform.localPosition : Vector3.zero;
-        _visualBaseLocalScale = visualRenderer != null ? visualRenderer.transform.localScale : Vector3.one;
-        _visualBaseLocalRot = visualRenderer != null ? visualRenderer.transform.localRotation : Quaternion.identity;
+        _noiseX = Random.value * 100f + noiseSeed;
+        _noiseZ = Random.value * 100f + noiseSeed * 13f;
 
-        // randomize per-enemy noise seed offsets
-        _noiseOffsetX = Random.value * 100f + noiseSeed;
-        _noiseOffsetZ = Random.value * 100f + noiseSeed * 13f;
+        if (useNavAgentIfAvailable)
+        {
+            _agent = GetComponent<NavMeshAgent>();
+            if (_agent != null)
+            {
+                // Important: let agent compute pathing but don't let it move the transform Y.
+                // To avoid jitter we keep updatePosition=false and updateRotation=false,
+                // then we smoothly drive transform position to agent.nextPosition.xz + smoothed Y.
+                _agent.updatePosition = false;
+                _agent.updateRotation = false;
+                _agent.speed = Mathf.Max(0.01f, wanderSpeed);
+                _agent.autoBraking = false;
+            }
+        }
+
+        // init smoothed Y
+        _smoothedY = transform.position.y;
+    }
+
+    void Start()
+    {
+        if (_agent != null && !_agent.isOnNavMesh)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
+                _agent.Warp(hit.position);
+        }
     }
 
     void Update()
     {
-        // update wander center if user changed transform
         _wanderCenterPos = wanderCenter.position;
 
-        // timer
+        // pick new wander target periodically or if agent has reached destination
         _targetTimer += Time.deltaTime;
+        bool needNewTarget = false;
         if (_targetTimer >= changeTargetInterval)
+            needNewTarget = true;
+
+        if (_agent != null)
         {
-            PickNewTarget();
-            _targetTimer = 0f;
-        }
-
-        // Perlin noise based drift (horizontal)
-        float t = Time.time * noiseSpeed;
-        float nx = (Mathf.PerlinNoise(t + _noiseOffsetX, _noiseOffsetX) - 0.5f) * 2f;
-        float nz = (Mathf.PerlinNoise(t + _noiseOffsetZ, _noiseOffsetZ) - 0.5f) * 2f;
-        Vector3 noiseOffset = new Vector3(nx, 0f, nz) * noiseStrength;
-
-        // bobbing + small vertical drift
-        float bob = Mathf.Sin(Time.time * bobFrequency * Mathf.PI * 2f) * bobAmplitude;
-        float vdrift = (Mathf.PerlinNoise(Time.time * 0.13f + _noiseOffsetX * 0.1f, _noiseOffsetZ * 0.1f) - 0.5f) * 2f * verticalDrift;
-
-        // compute desired position
-        Vector3 desired = _targetPosition + noiseOffset;
-        desired.y = _wanderCenterPos.y + bob + vdrift;
-
-        // smooth movement
-        transform.position = Vector3.SmoothDamp(transform.position, desired, ref _velocity, 0.8f / Mathf.Max(0.0001f, wanderSpeed), Mathf.Infinity, Time.deltaTime);
-
-        // gentle facing direction based on velocity
-        Vector3 flatVel = _velocity;
-        flatVel.y = 0f;
-        if (flatVel.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(flatVel.normalized, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed * 0.55f);
+            // if no path or close to destination request a new one
+            if (!_agent.hasPath || _agent.pathPending || _agent.pathStatus != NavMeshPathStatus.PathComplete ||
+                (_agent.remainingDistance <= Mathf.Max(0.2f, _agent.stoppingDistance + 0.1f)))
+            {
+                needNewTarget = true;
+            }
         }
         else
         {
-            // slow idle spin so it doesn't feel static
+            Vector3 toTarget = _targetPosition - transform.position;
+            toTarget.y = 0f;
+            if (toTarget.magnitude < 0.5f) needNewTarget = true;
+        }
+
+        if (needNewTarget)
+        {
+            // Prefer sampling on NavMesh so movement is reachable
+            Vector3 navPoint;
+            if (SampleRandomPointOnNavMesh(_wanderCenterPos, wanderRadius, out navPoint))
+            {
+                _targetPosition = new Vector3(navPoint.x, _wanderCenterPos.y, navPoint.z);
+                if (_agent != null)
+                    _agent.SetDestination(new Vector3(_targetPosition.x, _agent.transform.position.y, _targetPosition.z));
+            }
+            else
+            {
+                Vector2 c = Random.insideUnitCircle * wanderRadius;
+                _targetPosition = _wanderCenterPos + new Vector3(c.x, 0f, c.y);
+                if (_agent != null)
+                    _agent.SetDestination(new Vector3(_targetPosition.x, _agent.transform.position.y, _targetPosition.z));
+            }
+
+            _targetTimer = 0f;
+            _lastSetTargetTime = Time.time;
+        }
+
+        // perlin noise offsets and bob
+        float tt = Time.time * noiseSpeed;
+        float nx = (Mathf.PerlinNoise(tt + _noiseX, _noiseX) - 0.5f) * 2f;
+        float nz = (Mathf.PerlinNoise(tt + _noiseZ, _noiseZ) - 0.5f) * 2f;
+        Vector3 noiseOffset = new Vector3(nx, 0f, nz) * noiseStrength;
+
+        float bob = Mathf.Sin(Time.time * bobFrequency * Mathf.PI * 2f) * bobAmplitude;
+        float vdrift = (Mathf.PerlinNoise(Time.time * 0.13f + _noiseX * 0.1f, _noiseZ * 0.1f) - 0.5f) * 2f * verticalDrift;
+
+        // desired XZ based on target + noise
+        Vector3 desiredXZ = _targetPosition + noiseOffset;
+        Vector3 offset = desiredXZ - _wanderCenterPos;
+        offset.y = 0f;
+        if (offset.magnitude > wanderRadius)
+            desiredXZ = _wanderCenterPos + offset.normalized * wanderRadius;
+
+        // compute desiredY. Prefer NavMesh sample under desired XZ if agent exists
+        float desiredY = _wanderCenterPos.y + bob + vdrift;
+        if (_agent != null && _agent.isOnNavMesh)
+        {
+            NavMeshHit navHit;
+            Vector3 samplePos = new Vector3(desiredXZ.x, _wanderCenterPos.y + 1f, desiredXZ.z);
+            if (NavMesh.SamplePosition(samplePos, out navHit, navSampleRadius, NavMesh.AllAreas))
+                desiredY = navHit.position.y + hoverHeight + bob * 0.25f + vdrift * 0.25f;
+        }
+        else if (useGrounding)
+        {
+            float groundY;
+            Vector3 sample = transform.position;
+            if (TryGetGroundHeight(sample, out groundY))
+                desiredY = Mathf.Max(desiredY, groundY + groundOffset);
+        }
+
+        desiredY = Mathf.Clamp(desiredY, _wanderCenterPos.y + minHeightOffset, _wanderCenterPos.y + maxHeightOffset);
+        _currentDesiredY = desiredY;
+
+        // horizontal velocity sample for rotation smoothing
+        if (_agent != null && _agent.hasPath)
+            _horizontalVel = new Vector3(_agent.velocity.x, 0f, _agent.velocity.z);
+        else
+            _horizontalVel = new Vector3(_smoothVel.x, 0f, _smoothVel.z);
+
+        // face movement direction
+        Vector3 flatVel = _horizontalVel;
+        if (flatVel.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(flatVel.normalized, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
+        }
+        else
+        {
             transform.rotation *= Quaternion.Euler(0f, visualSpinSpeed * Time.deltaTime * 0.08f, 0f);
         }
 
         // visual effects
-        if (_instancedMaterial != null && visualRenderer != null)
+        if (_matInstance != null && visualRenderer != null)
         {
-            // scroll main texture if present
-            if (_instancedMaterial.HasProperty("_MainTex"))
+            if (_matInstance.HasProperty("_MainTex"))
             {
-                Vector2 offset = _instancedMaterial.mainTextureOffset;
-                offset += staticScrollSpeed * Time.deltaTime;
-                _instancedMaterial.mainTextureOffset = offset;
+                Vector2 off = _matInstance.mainTextureOffset;
+                off += staticScrollSpeed * Time.deltaTime;
+                _matInstance.mainTextureOffset = off;
             }
-
-            // emission / shimmer driven by Perlin pulse
-            if (_instancedMaterial.HasProperty("_EmissionColor"))
+            if (_matInstance.HasProperty("_EmissionColor"))
             {
-                float pulse = (Mathf.PerlinNoise(Time.time * staticPulseSpeed + _noiseOffsetX, _noiseOffsetZ) );
+                float pulse = Mathf.PerlinNoise(Time.time * staticPulseSpeed + _noiseX, _noiseZ);
                 float emission = Mathf.Lerp(staticEmissionRange.x, staticEmissionRange.y, pulse);
-                Color baseEmission = Color.white * emission;
-                _instancedMaterial.SetColor("_EmissionColor", baseEmission);
-                _instancedMaterial.EnableKeyword("_EMISSION");
+                _matInstance.SetColor("_EmissionColor", Color.white * emission);
+                _matInstance.EnableKeyword("_EMISSION");
             }
         }
 
-        // subtle scale pulse on visual root to feel 'breathy'
         if (visualRenderer != null)
         {
             float sp = 1f + Mathf.Sin(Time.time * (0.6f + noiseSpeed)) * scalePulse;
             visualRenderer.transform.localScale = _visualBaseLocalScale * sp;
-            // keep visual positioned relative to root base (no teleport)
-            visualRenderer.transform.localPosition = _visualBaseLocalPos + (Vector3.up * (bob * 0.04f));
-            visualRenderer.transform.localRotation = _visualBaseLocalRot * Quaternion.Euler(Mathf.PerlinNoise(Time.time * 0.4f + _noiseOffsetX, 0f) * 6f - 3f, 0f, 0f);
+            visualRenderer.transform.localPosition = _visualBaseLocalPos + Vector3.up * (bob * 0.04f);
+            visualRenderer.transform.localRotation = _visualBaseLocalRot * Quaternion.Euler((Mathf.PerlinNoise(Time.time * 0.4f + _noiseX, 0f) * 6f) - 3f, 0f, 0f);
         }
+    }
+
+    void LateUpdate()
+    {
+        // Smoothly apply hover Y and XZ from agent.nextPosition (agent computes path but does not move transform)
+        Vector3 agentPos = (_agent != null && _agent.isOnNavMesh) ? _agent.nextPosition : transform.position;
+        Vector3 target = new Vector3(agentPos.x, _currentDesiredY, agentPos.z);
+
+        // Smooth horizontal/vertical separately to avoid snapping.
+        float smoothTime = XY_SMOOTH_TIME / Mathf.Max(0.1f, wanderSpeed);
+        Vector3 newPos = Vector3.SmoothDamp(transform.position, target, ref _smoothVel, smoothTime, Mathf.Infinity, Time.deltaTime);
+
+        // Smooth Y a bit more conservatively
+        _smoothedY = Mathf.SmoothDamp(transform.position.y, _currentDesiredY, ref _verticalSmoothVel, Y_SMOOTH_TIME, Mathf.Infinity, Time.deltaTime);
+        newPos.y = _smoothedY;
+
+        transform.position = newPos;
+
+        // Keep agent internally synced to our XZ to avoid it correcting us (prevent tug-of-war)
+        if (_agent != null && _agent.isOnNavMesh)
+        {
+            _agent.nextPosition = new Vector3(transform.position.x, agentPos.y, transform.position.z);
+        }
+    }
+
+    private bool SampleRandomPointOnNavMesh(Vector3 center, float radius, out Vector3 result)
+    {
+        for (int i = 0; i < 22; i++)
+        {
+            Vector3 randomPoint = center + (Vector3)(Random.insideUnitCircle * radius);
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 2.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+        result = Vector3.zero;
+        return false;
+    }
+
+    private bool TryGetGroundHeight(Vector3 samplePos, out float groundY)
+    {
+        RaycastHit hit;
+        Vector3 origin = samplePos + Vector3.up * groundProbeHeight;
+        if (Physics.Raycast(origin, Vector3.down, out hit, groundProbeHeight * 2f, groundLayer, QueryTriggerInteraction.Ignore))
+        {
+            groundY = hit.point.y;
+            return true;
+        }
+        groundY = 0f;
+        return false;
     }
 
     private void PickNewTarget()
     {
-        Vector2 circle = Random.insideUnitCircle * wanderRadius;
-        // keep new target near wander center horizontally, allow small random vertical within verticalDrift
-        _targetPosition = _wanderCenterPos + new Vector3(circle.x, 0f, circle.y);
-        _targetPosition.y = _wanderCenterPos.y;
+        Vector2 c = Random.insideUnitCircle * wanderRadius;
+        _targetPosition = _wanderCenterPos + new Vector3(c.x, 0f, c.y);
     }
 
     void OnDrawGizmosSelected()
     {
-        // draw wander radius
-        Gizmos.color = Color.cyan * 0.8f;
         Vector3 c = (wanderCenter != null) ? wanderCenter.position : transform.position;
-        Gizmos.DrawWireSphere(new Vector3(c.x, c.y, c.z), wanderRadius);
+        Gizmos.color = Color.cyan * 0.8f;
+        Gizmos.DrawWireSphere(c, wanderRadius);
     }
 }
