@@ -1754,9 +1754,6 @@ GameObject:
   - component: {fileID: 765580433}
   - component: {fileID: 765580432}
   - component: {fileID: 765580431}
-  - component: {fileID: 765580434}
-  - component: {fileID: 765580435}
-  - component: {fileID: 765580436}
   m_Layer: 0
   m_Name: RobotWalking
   m_TagString: Untagged
@@ -1862,69 +1859,6 @@ Transform:
   - {fileID: 1219106450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &765580434
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765580430}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 16
-  m_Acceleration: 250
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 3
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &765580435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765580430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a4abcf6d098fcd4eb3b112ed6c2f4a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ai
-  player: {fileID: 0}
-  moveSpeed: 16
-  stoppingDistance: 1.2
-  searchRadius: 15
-  searchSamples: 12
-  minDestinationMoveDist: 0.6
-  minUpdateInterval: 0.25
-  pathCheckInterval: 0.12
---- !u!65 &765580436
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765580430}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.0674126, y: 4.444169, z: 0.21989375}
-  m_Center: {x: 0.013270259, y: 0.17791557, z: 0.009946927}
 --- !u!1 &802008821
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,7 +2646,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1219106450
 Transform:
   m_ObjectHideFlags: 0
@@ -3260,7 +3194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1554081967
 Transform:
   m_ObjectHideFlags: 0
