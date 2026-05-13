@@ -14,7 +14,5 @@ public class Move_bullets : MonoBehaviour
     {
         rb.linearVelocity = transform.forward * speed;
     }
-    public void OnCollisionEnter(Collision collision)
-    {
-    }
+    
 }
