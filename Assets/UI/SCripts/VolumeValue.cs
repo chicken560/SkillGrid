@@ -54,10 +54,12 @@ public class VolumeValue : MonoBehaviour
 
     private void ApplyVolume(float value)
     {
-        AudioListener.volume = value;
+        // Ensure the value never exceeds 1.0 to prevent distortion
+        AudioListener.volume = Mathf.Clamp01(value);
 
         if (volumeText != null)
         {
+            // Multiply by 100 to turn 0.5 into "50%"
             volumeText.text = "Volume: " + Mathf.Round(value * 1) + "%";
         }
     }
