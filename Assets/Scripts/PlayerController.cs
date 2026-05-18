@@ -14,13 +14,34 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     private bool isGrounded; // Flag to check if the player is on the ground
     private Rigidbody rb; // Reference to the player's Rigidbody component
+    [Header("UI Settings")]
+    public KeyCode uiToggleKey = KeyCode.Tab; // Key to toggle the UI
+    public GameObject pauseMenuPanel;
+
     public void Start()
     {
         rb = GetComponent<Rigidbody>(); // Get the Rigidbody component attached to the player
+        pauseMenuPanel.SetActive(false);
     }
     void Update()
     {
         Onmove(); // Move the player based on the calculated movement and jump vectors
+        OnToggleUI(); // Check for UI toggle input
+    }
+    public void OnToggleUI()
+    {
+        if (Input.GetKeyDown(uiToggleKey))
+        {
+            pauseMenuPanel.SetActive(true);
+            // Implement UI toggle logic here
+            Time.timeScale = 0f; // Pause the game
+            Debug.Log("UI Toggled");
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenuPanel.SetActive(false);
+            Time.timeScale = 1f; // Resume the game
+        }
     }
     public void Onmove()
     {
