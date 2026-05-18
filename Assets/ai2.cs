@@ -1,117 +1,209 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-#if UNITY_AI_NAVIGATION
-using Unity.AI.Navigation;
-#endif
+using UnityEngine.Events;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(NavMeshAgent))]
 public class ai2 : MonoBehaviour
 {
-    [Header("Target Settings")]
+    [Header("References")]
+    [Tooltip("Player Transform (will auto-find GameObject tagged 'Player' if empty).")]
     public Transform player;
-    public float chaseDistance = 10f;
 
-    [Header("Frustration Settings")]
-    public float frustrationIncreaseRate = 25f; // Points per second when stuck/blocked
-    public float frustrationDecreaseRate = 15f; // Points per second when moving cleanly
-    public float maxFrustration = 100f;         // Threshold to force a path recalculation
+    [Header("Chase")]
+    public float chaseDistance = 12f;
+    public float loseInterestDistance = 18f;
+    public float stoppingDistance = 1.2f;
+    [Tooltip("How often (s) the agent updates its path to the player.")]
+    public float pathUpdateInterval = 0.35f;
 
-    [Header("Performance Settings")]
-    public float pathUpdateInterval = 0.5f;     // How often to update the NavMesh path
+    [Header("Agent Movement")]
+    public float moveSpeed = 3.8f;
+    public float angularSpeed = 120f;
+    public bool autoBraking = false;
 
-    [Header("Debug Info (Read Only)")]
-    public float currentFrustration = 0f;
-    public bool isStuckOrBlocked = false;
+    [Header("Contact / End Run")]
+    [Tooltip("If true touching the player ends the run immediately.")]
+    public bool endRunOnTouch = true;
+    [Tooltip("If true, load next scene (by name or build index) when run ends.")]
+    public bool loadNextSceneOnEnd = true;
+    [Tooltip("Optional scene name to load. If empty the next build index is used.")]
+    public string nextSceneName = "";
+    [Tooltip("Optional delay (seconds) before executing the end-run action.")]
+    public float endRunDelay = 0f;
+
+    [Header("Player handling")]
+    [Tooltip("If true, will disable detected PlayerController component during end-run handling.")]
+    public bool disablePlayerControllerOnEnd = true;
+
+    [Header("Events")]
+    [Tooltip("Called when the player is touched (before scene load or other actions).")]
+    public UnityEvent onPlayerTouched;
+
+    [Header("Debug")]
+    [Tooltip("Read-only — shows whether the AI is currently chasing the player.")]
+    [SerializeField] private bool _isChasing = false;
+    public bool isChasing => _isChasing;
 
     private NavMeshAgent agent;
-    private float pathTimer = 0f;
+    private float pathTimer;
+    private bool _handlingEnd;
 
-    void Start()
+    void Reset()
+    {
+        // ensure there's a trigger collider for touch detection
+        Collider col = GetComponent<Collider>();
+        if (col == null)
+        {
+            var sc = gameObject.AddComponent<SphereCollider>();
+            sc.isTrigger = true;
+            sc.radius = 0.6f;
+        }
+        else
+        {
+            col.isTrigger = true;
+        }
+    }
+
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+        {
+            Debug.LogError("ai2 requires a NavMeshAgent component. Disabling script.");
+            enabled = false;
+            return;
+        }
+
+        agent.speed = moveSpeed;
+        agent.angularSpeed = angularSpeed;
+        agent.stoppingDistance = stoppingDistance;
+        agent.autoBraking = autoBraking;
 
         if (player == null)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null) player = playerObj.transform;
+            var go = GameObject.FindGameObjectWithTag("Player");
+            if (go != null) player = go.transform;
         }
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null || _handlingEnd || agent == null) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float d = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= chaseDistance)
+        // decide whether to chase
+        if (d <= chaseDistance)
         {
-            agent.isStopped = false;
-
-            // Periodically refresh the target path assignment
+            _isChasing = true;
             pathTimer += Time.deltaTime;
             if (pathTimer >= pathUpdateInterval)
             {
                 pathTimer = 0f;
-                agent.SetDestination(player.position);
+                if (agent.isOnNavMesh)
+                    agent.SetDestination(player.position);
             }
-
-            // Continuous status evaluation every frame
-            EvaluateStuckStatus(distanceToPlayer);
-            ManageFrustration();
+            agent.isStopped = false;
         }
-        else
+        else if (d > loseInterestDistance)
         {
+            _isChasing = false;
+            agent.ResetPath();
             agent.isStopped = true;
-            isStuckOrBlocked = false;
-            currentFrustration = Mathf.Max(0f, currentFrustration - frustrationDecreaseRate * Time.deltaTime);
         }
+        // else keep current behavior (allows brief pursuit beyond chaseDistance)
     }
 
-    void EvaluateStuckStatus(float distanceToPlayer)
+    // Trigger-based contact detection (requires trigger collider)
+    void OnTriggerEnter(Collider other)
     {
-        // RULE 1: If Unity declares the path broken/partial, it's blocked
-        bool isPathBroken = (agent.pathStatus == NavMeshPathStatus.PathPartial || agent.pathStatus == NavMeshPathStatus.PathInvalid);
-
-        // RULE 2: If the path is broken AND the agent is further away from the player than its stopping tolerance, it is stuck
-        if (isPathBroken && distanceToPlayer > agent.stoppingDistance)
+        if (!_handlingEnd && IsPlayerCollider(other))
         {
-            isStuckOrBlocked = true;
-            return;
-        }
-
-        // RULE 3: Physical obstacle check (rubbing against a wall on a "valid" path)
-        if (agent.hasPath && agent.velocity.sqrMagnitude < 0.1f && distanceToPlayer > agent.stoppingDistance)
-        {
-            isStuckOrBlocked = true;
-        }
-        else
-        {
-            isStuckOrBlocked = false;
+            if (endRunOnTouch)
+            {
+                StartCoroutine(HandleEndRunRoutine(other.transform));
+            }
+            else
+            {
+                onPlayerTouched?.Invoke();
+            }
         }
     }
 
-    void ManageFrustration()
+    private bool IsPlayerCollider(Collider other)
     {
-        if (isStuckOrBlocked)
-        {
-            currentFrustration = Mathf.Min(maxFrustration, currentFrustration + frustrationIncreaseRate * Time.deltaTime);
-        }
-        else
-        {
-            currentFrustration = Mathf.Max(0f, currentFrustration - frustrationDecreaseRate * Time.deltaTime);
-        }
-
-        if (currentFrustration >= maxFrustration)
-        {
-            ExecuteFrustratedAction();
-        }
+        if (other == null) return false;
+        if (player != null && other.transform == player) return true;
+        if (other.CompareTag("Player")) return true;
+        if (other.GetComponent<PlayerController>() != null) return true;
+        if (other.name.ToLower() == "player") return true;
+        return false;
     }
 
-    void ExecuteFrustratedAction()
+    private IEnumerator HandleEndRunRoutine(Transform playerTransform)
     {
-        currentFrustration = 0f;
-        agent.ResetPath(); // Completely clear the frozen path container
+        _handlingEnd = true;
+        onPlayerTouched?.Invoke();
 
-        // Force an immediate layout reset to look for stairs/ramps again
-        agent.SetDestination(player.position);
+        if (disablePlayerControllerOnEnd)
+        {
+            var pc = playerTransform.GetComponent<PlayerController>();
+            if (pc != null) pc.enabled = false;
+        }
+
+        if (endRunDelay > 0f)
+            yield return new WaitForSeconds(endRunDelay);
+
+        if (loadNextSceneOnEnd)
+        {
+            // use the NextLevelInstant public API if present to keep consistent behavior,
+            // otherwise load directly here.
+            var nextLevelTrigger = GetComponent<NextLevelInstant>();
+            if (nextLevelTrigger != null)
+            {
+                nextLevelTrigger.TriggerLoad();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(nextSceneName))
+                {
+                    if (Application.CanStreamedLevelBeLoaded(nextSceneName))
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+                    else
+                        Debug.LogWarning($"ai2: scene '{nextSceneName}' cannot be loaded (not in Build Settings).");
+                }
+                else
+                {
+                    int nextIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
+                    if (nextIndex < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
+                        UnityEngine.SceneManagement.SceneManager.LoadScene(nextIndex);
+                    else
+                        Debug.LogWarning("ai2: no next scene in Build Settings.");
+                }
+            }
+        }
+
+        // If not loading scene, just mark finished and optionally re-enable player control.
+        if (!loadNextSceneOnEnd)
+        {
+            if (disablePlayerControllerOnEnd)
+            {
+                var pc = playerTransform.GetComponent<PlayerController>();
+                if (pc != null) pc.enabled = true;
+            }
+            _handlingEnd = false;
+        }
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red * 0.7f;
+        Gizmos.DrawWireSphere(transform.position, chaseDistance);
+        Gizmos.color = Color.yellow * 0.6f;
+        Gizmos.DrawWireSphere(transform.position, loseInterestDistance);
+    }
+#endif
 }
