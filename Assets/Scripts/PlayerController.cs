@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
                 StopSprint();
             }
         }
-
     }
 
     void Jump()
