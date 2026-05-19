@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal"); // Get horizontal input (A/D or Left/Right)    
         float verticalInput = Input.GetAxis("Vertical"); // Get vertical input (W/S or Up/Down)
         Vector3 move = new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime; // Calculate movement vector based on input and speed
+            transform.Translate(move); // Move the player based on the calculated movement vector
         if (Input.GetButtonDown("Jump") && isGrounded) // Check if the jump button is pressed and the player is grounded
         {
             Jump(); // Apply jump force to the player's Rigidbody
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
                 StopSprint();
             }
         }
-        transform.Translate(move); // Move the player based on the calculated movement and jump vectors
+        
     }
 
     void Jump()
