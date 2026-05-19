@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -36,6 +37,10 @@ public class ai2 : MonoBehaviour
     [Header("Player handling")]
     [Tooltip("If true, will disable detected PlayerController component during end-run handling.")]
     public bool disablePlayerControllerOnEnd = true;
+
+    [Header("Next level helper (optional)")]
+    [Tooltip("Optional NextLevelInstant component to call for scene transitions (assign in Inspector).")]
+    public NextLevelInstant nextLevelComponent;
 
     [Header("Events")]
     [Tooltip("Called when the player is touched (before scene load or other actions).")]
@@ -86,6 +91,10 @@ public class ai2 : MonoBehaviour
             var go = GameObject.FindGameObjectWithTag("Player");
             if (go != null) player = go.transform;
         }
+
+        // if NextLevelInstant not assigned, try to find one in scene
+        if (nextLevelComponent == null)
+            nextLevelComponent = FindObjectOfType<NextLevelInstant>();
     }
 
     void Update()
@@ -116,11 +125,13 @@ public class ai2 : MonoBehaviour
         // else keep current behavior (allows brief pursuit beyond chaseDistance)
     }
 
-    // Trigger-based contact detection (requires trigger collider)
+    // Trigger-based contact detection (requires this collider to be a trigger and player to have a Rigidbody)
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"ai2: OnTriggerEnter with '{other?.name}'");
         if (!_handlingEnd && IsPlayerCollider(other))
         {
+            Debug.Log("ai2: Player detected by trigger.");
             if (endRunOnTouch)
             {
                 StartCoroutine(HandleEndRunRoutine(other.transform));
@@ -147,40 +158,56 @@ public class ai2 : MonoBehaviour
         _handlingEnd = true;
         onPlayerTouched?.Invoke();
 
+        Debug.Log("ai2: Handling end-run.");
+
         if (disablePlayerControllerOnEnd)
         {
             var pc = playerTransform.GetComponent<PlayerController>();
-            if (pc != null) pc.enabled = false;
+            if (pc != null)
+            {
+                pc.enabled = false;
+                Debug.Log("ai2: PlayerController disabled.");
+            }
         }
 
         if (endRunDelay > 0f)
             yield return new WaitForSeconds(endRunDelay);
 
+        // Prefer calling assigned NextLevelInstant for consistent behavior
         if (loadNextSceneOnEnd)
         {
-            // use the NextLevelInstant public API if present to keep consistent behavior,
-            // otherwise load directly here.
-            var nextLevelTrigger = GetComponent<NextLevelInstant>();
-            if (nextLevelTrigger != null)
+            if (nextLevelComponent != null)
             {
-                nextLevelTrigger.TriggerLoad();
+                Debug.Log("ai2: Using NextLevelInstant to load next level.");
+                nextLevelComponent.TriggerLoad();
             }
             else
             {
+                // direct scene load fallback
                 if (!string.IsNullOrEmpty(nextSceneName))
                 {
                     if (Application.CanStreamedLevelBeLoaded(nextSceneName))
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+                    {
+                        Debug.Log($"ai2: Loading scene by name: {nextSceneName}");
+                        SceneManager.LoadScene(nextSceneName);
+                    }
                     else
+                    {
                         Debug.LogWarning($"ai2: scene '{nextSceneName}' cannot be loaded (not in Build Settings).");
+                    }
                 }
                 else
                 {
-                    int nextIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
-                    if (nextIndex < UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings)
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(nextIndex);
+                    int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+                    if (nextIndex < SceneManager.sceneCountInBuildSettings)
+                    {
+                        Debug.Log($"ai2: Loading next scene index: {nextIndex}");
+                        SceneManager.LoadScene(nextIndex);
+                    }
                     else
+                    {
                         Debug.LogWarning("ai2: no next scene in Build Settings.");
+                    }
                 }
             }
         }
