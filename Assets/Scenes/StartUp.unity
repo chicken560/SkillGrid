@@ -19247,80 +19247,11 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590481011}
   m_Enabled: 1
-  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cc42ba411fe8b54b989c2ba6b4c53a3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ai2
-  player: {fileID: 0}
-  chaseDistance: 12
-  loseInterestDistance: 18
-  stoppingDistance: 1.2
-  pathUpdateInterval: 0.35
-  moveSpeed: 3.8
-  angularSpeed: 120
-  autoBraking: 0
-  endRunOnTouch: 1
-  loadNextSceneOnEnd: 1
-  nextSceneName: 
-  endRunDelay: 0
-  disablePlayerControllerOnEnd: 1
-  nextLevelComponent: {fileID: 0}
-  onPlayerTouched:
-    m_PersistentCalls:
-      m_Calls: []
-  _isChasing: 0
---- !u!114 &1590481025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590481011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f468b18f72cc5ad4aafce1162d98e22b, type: 3}
-  m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 1730648643}
-<<<<<<< HEAD
-  moveSpeed: 5
-  rotationSpeed: 154
-  jumpForce: 10.81
-  jumpCooldown: 1.5
-  heightToTriggerJump: 1.2
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  gameOverSceneName: GameOver
---- !u!54 &1590481026
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590481011}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
-=======
   chaseDistance: 50
   loseInterestDistance: 18
   stoppingDistance: 1.2
@@ -19337,10 +19268,6 @@ Rigidbody:
     m_PersistentCalls:
       m_Calls: []
   _isChasing: 0
-<<<<<<< Updated upstream
-=======
->>>>>>> 254d386c9f89cdee31beaa8354098cdb88f9741d
->>>>>>> Stashed changes
 --- !u!1 &1599373960
 GameObject:
   m_ObjectHideFlags: 0
@@ -29186,37 +29113,12 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2786786255457461177, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2786786255457461177, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
       propertyPath: m_Acceleration
       value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 6361293006096912994, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      propertyPath: m_Size.x
-      value: 0.29820755
-      objectReference: {fileID: 0}
-    - target: {fileID: 6361293006096912994, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      propertyPath: m_Size.z
-      value: 19.261648
-      objectReference: {fileID: 0}
-    - target: {fileID: 6361293006096912994, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      propertyPath: m_Center.x
-      value: -0.116964296
-      objectReference: {fileID: 0}
-    - target: {fileID: 6361293006096912994, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      propertyPath: m_Center.z
-      value: 9.130919
-      objectReference: {fileID: 0}
-    - target: {fileID: 6361293006096912994, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6546774910465166357, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 391.04767
-      value: 392.04767
       objectReference: {fileID: 0}
     - target: {fileID: 6546774910465166357, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29225,7 +29127,6 @@ PrefabInstance:
     - target: {fileID: 6546774910465166357, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
       propertyPath: m_LocalPosition.z
       value: 327.6103
-      value: 339.6103
       objectReference: {fileID: 0}
     - target: {fileID: 6546774910465166357, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -29282,12 +29183,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7675505988559861224, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1590481018}
-    - targetCorrespondingSourceObject: {fileID: 7675505988559861224, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1590481025}
-    - targetCorrespondingSourceObject: {fileID: 7675505988559861224, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1590481026}
   m_SourcePrefab: {fileID: 100100000, guid: 0a70c94ecf5c9454197f72613f7f78c1, type: 3}
 --- !u!1001 &7557948678166025107
 PrefabInstance:
