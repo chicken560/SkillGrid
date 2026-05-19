@@ -67,8 +67,6 @@ public class PlayerController : MonoBehaviour
                 StopSprint();
             }
         }
-        // Apply movement using Rigidbody velocity
-
     }
 
     void Jump()
