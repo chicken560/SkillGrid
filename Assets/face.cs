@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RetroBillboard : MonoBehaviour
+public class VoimaBillboard : MonoBehaviour
 {
     private Transform camTransform;
 
@@ -10,24 +10,29 @@ public class RetroBillboard : MonoBehaviour
         {
             camTransform = Camera.main.transform;
         }
+
+        // THE FIX FOR THE TREE DISAPPEARING:
+        // We manually override the tree's bounding box. This forces Unity to 
+        // keep rendering the tree even if the camera is staring right at its edge.
+        if (TryGetComponent<MeshFilter>(out MeshFilter meshFilter))
+        {
+            Mesh mesh = meshFilter.mesh;
+            // Extends the tracking bubble to 15 units wide/tall
+            mesh.bounds = new Bounds(Vector3.zero, Vector3.one * 15f);
+        }
     }
 
     void LateUpdate()
     {
         if (camTransform == null) return;
 
-        // 1. Calculate the direction the camera is facing
-        Vector3 targetDirection = camTransform.forward;
+        Vector3 lookDir = camTransform.forward;
+        lookDir.y = 0; // Keeps it upright like a tree cutout
 
-        // 2. CRITICAL: Flatten the vertical (Y) direction to zero.
-        // This stops the sprite from tilting back and showing its stem/top edge.
-        targetDirection.y = 0;
-
-        // 3. Keep the target directional vector valid
-        if (targetDirection != Vector3.zero)
+        if (lookDir != Vector3.zero)
         {
-            // Force the flat plane of the sprite to face the flattened camera direction
-            transform.rotation = Quaternion.LookRotation(-targetDirection, Vector3.up);
+            // If the tree looks backwards or disappears, change '-lookDir' to 'lookDir'
+            transform.rotation = Quaternion.LookRotation(-lookDir, Vector3.up);
         }
     }
 }
