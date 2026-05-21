@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 42439186}
   m_Layer: 0
   m_Name: Obstacles (4)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 62995356}
   m_Layer: 0
   m_Name: Obstacles (15)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -656,7 +656,7 @@ GameObject:
   - component: {fileID: 279431175}
   m_Layer: 0
   m_Name: Obstacles (8)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 364581869}
   m_Layer: 0
   m_Name: Obstacles (13)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -946,7 +946,7 @@ GameObject:
   - component: {fileID: 397067626}
   m_Layer: 0
   m_Name: Obstacles (10)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1387,7 +1387,7 @@ GameObject:
   - component: {fileID: 580206470}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -1514,7 +1514,7 @@ GameObject:
   - component: {fileID: 689754480}
   m_Layer: 0
   m_Name: Obstacles (20)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1659,7 +1659,7 @@ GameObject:
   - component: {fileID: 732168005}
   m_Layer: 0
   m_Name: Obstacles (18)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1804,7 +1804,7 @@ GameObject:
   - component: {fileID: 763727108}
   m_Layer: 0
   m_Name: Obstacles (6)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1949,7 +1949,7 @@ GameObject:
   - component: {fileID: 802008826}
   m_Layer: 0
   m_Name: Obstacles (16)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2094,7 +2094,7 @@ GameObject:
   - component: {fileID: 828449995}
   m_Layer: 0
   m_Name: Obstacles (17)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2765,7 +2765,7 @@ GameObject:
   - component: {fileID: 1068413777}
   m_Layer: 0
   m_Name: Obstacles (14)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2910,7 +2910,7 @@ GameObject:
   - component: {fileID: 1078888205}
   m_Layer: 0
   m_Name: Obstacles (19)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3608,7 +3608,7 @@ GameObject:
   - component: {fileID: 1445431474}
   m_Layer: 0
   m_Name: Obstacles (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3753,7 +3753,7 @@ GameObject:
   - component: {fileID: 1464057265}
   m_Layer: 0
   m_Name: Obstacles (12)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3900,10 +3900,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Person Controller
       objectReference: {fileID: 0}
-    - target: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4207293392497186, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 389.82
@@ -3944,14 +3940,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114497868231759342, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
-      propertyPath: jumpStrength
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114963311885979670, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
-      propertyPath: runSpeed
-      value: 16
-      objectReference: {fileID: 0}
     - target: {fileID: 7846117283513515355, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: pauseMenuPanel
       value: 
@@ -3976,7 +3964,7 @@ GameObject:
   - component: {fileID: 1522774064}
   m_Layer: 0
   m_Name: Obstacles (9)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4254,7 +4242,7 @@ GameObject:
   - component: {fileID: 1565800789}
   m_Layer: 0
   m_Name: Obstacles (11)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4433,7 +4421,7 @@ GameObject:
   - component: {fileID: 1754169251}
   m_Layer: 0
   m_Name: Obstacles (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4711,7 +4699,7 @@ GameObject:
   - component: {fileID: 1786786705}
   m_Layer: 0
   m_Name: Obstacles (5)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4935,7 +4923,7 @@ GameObject:
   - component: {fileID: 1816526340}
   m_Layer: 0
   m_Name: Obstacles (7)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5080,7 +5068,7 @@ GameObject:
   - component: {fileID: 1843915354}
   m_Layer: 0
   m_Name: Obstacles
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5687,7 +5675,7 @@ GameObject:
   - component: {fileID: 2110351095}
   m_Layer: 0
   m_Name: Obstacles (3)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
