@@ -1513,6 +1513,11 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 49ee89b6e17ade44fb390bdf3da85e3d, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &760889490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+  m_PrefabInstance: {fileID: 1517551615}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &763727103
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,6 +2538,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4207293392497186, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
   m_PrefabInstance: {fileID: 1517551615}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1507181382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760889490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeeff44aa3767084ea6714ad2de3937e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  playerHealth: 100
+  moveSpeed: 5
+  jumpForce: 5
+  sprintDuration: 2
+  uiToggleKey: 9
+  pauseMenuPanel: {fileID: 0}
 --- !u!1001 &1517551615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2545,13 +2568,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Person Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4207293392497186, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 389.82
       objectReference: {fileID: 0}
     - target: {fileID: 4207293392497186, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.2
+      value: 6.81
       objectReference: {fileID: 0}
     - target: {fileID: 4207293392497186, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2596,7 +2623,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1773623360729482, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1507181382}
   m_SourcePrefab: {fileID: 100100000, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
 --- !u!1 &1522774059
 GameObject:
@@ -3139,13 +3169,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786786700}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 411.86, y: 4.51, z: 445.69}
-  m_LocalScale: {x: 5.9485507, y: 1.8244153, z: 24.986555}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 411.86, y: 1.53, z: 445.69}
+  m_LocalScale: {x: 5.9485507, y: 6.7339168, z: 24.986555}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!114 &1786786705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3840,13 +3870,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110351090}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2324811, y: -0, z: -0, w: 0.9726009}
-  m_LocalPosition: {x: 413.69, y: 5.3, z: 429.8}
-  m_LocalScale: {x: 8.485846, y: 1.1399899, z: 20.700066}
+  m_LocalRotation: {x: -0.9721132, y: -0, z: -0, w: 0.2345123}
+  m_LocalPosition: {x: 413.69, y: -0.22, z: 429.6783}
+  m_LocalScale: {x: 8.485846, y: 11.268133, z: 20.925697}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 26.886, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -152.874, y: 0, z: 0}
 --- !u!114 &2110351095
 MonoBehaviour:
   m_ObjectHideFlags: 0
