@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class ai : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class ai : MonoBehaviour
     private Vector3 lastDestination;
     private float lastDestinationSetTime;
     private float lastPathCheckTime;
+
+    public object ScenceManager { get; private set; }
 
     void Awake()
     {
@@ -218,5 +221,12 @@ public class ai : MonoBehaviour
         agent.SetDestination(dest);
         lastDestination = dest;
         lastDestinationSetTime = now;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene("GameOver");
+        }
     }
 }
