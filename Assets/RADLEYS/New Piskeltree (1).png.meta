@@ -147,7 +147,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7bf1c058b1bdfc640af9474675cdf103
+      spriteID: 2229ec1f1bb592042bb4b68daacc51b3
       internalID: 772659751
       vertices: []
       indices: 
@@ -169,7 +169,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7be5f359fed10ba43ae09471e2d5fa3d
+      spriteID: 2f6cfab9807647e41ab270ebfe68093f
       internalID: -289489755
       vertices: []
       indices: 
@@ -191,7 +191,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fba4632bc5a11844aecb364f4d00c39
+      spriteID: f13770584589bb04ba94ae3a9b62f53c
       internalID: 935561950
       vertices: []
       indices: 
@@ -213,7 +213,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96810d9a64d15b745975092336f4d5a7
+      spriteID: 0bd9b0e499f302744a6f00521c92341e
       internalID: 2105303961
       vertices: []
       indices: 
@@ -235,7 +235,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbd402de143e2e143a21a1c349d675f0
+      spriteID: a848260f1db11a34c9a45e9826a9aa6a
       internalID: 823232321
       vertices: []
       indices: 
@@ -257,7 +257,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f6bc6cb0d8652c43ae46d9e329f2f17
+      spriteID: ef39664ad5baf9443bfb743336e2e9e4
       internalID: 1450643721
       vertices: []
       indices: 
@@ -279,7 +279,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fe11f8e51b592a468fd21a8607f6174
+      spriteID: e98bdca9d59f0a148be9b862c0da9f23
       internalID: -1732730644
       vertices: []
       indices: 
@@ -301,7 +301,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 413b72b3b88d431468bd6852dbab4c51
+      spriteID: 848fbce738d7c954c9d4db2bb02cde77
       internalID: -1821554244
       vertices: []
       indices: 
@@ -323,7 +323,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30ae953bbe2a0f64d9a43ec853c059af
+      spriteID: 1361311e0f45dec4d94e6c5f7edd0ddb
       internalID: 92612600
       vertices: []
       indices: 
@@ -345,7 +345,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 633115c2b8848a94bb2ad762769d3cdc
+      spriteID: 5762f89d794f2f242b222ed46dbd9c05
       internalID: 1814828389
       vertices: []
       indices: 
@@ -367,7 +367,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8473402b35406024f8e1889f84d736f2
+      spriteID: e54f7e2b4d27136479d062f91c4267d7
       internalID: 2042182840
       vertices: []
       indices: 
@@ -378,7 +378,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 335
-        y: 1855
+        y: 1835
         width: 1212
         height: 1810
       alignment: 0
@@ -389,7 +389,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 173ef87ebc356004bb6d680921d9fdd5
+      spriteID: 1bc3256af68e53a4fbbd961953e21c76
       internalID: 1233667219
       vertices: []
       indices: 
@@ -411,7 +411,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d11fdd0224410f49906ac35335ee049
+      spriteID: 1a5ee35bdbe439f4ca42275f6592197c
       internalID: -1683775345
       vertices: []
       indices: 
@@ -433,7 +433,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a0a94f454278974a9803f10790fa148
+      spriteID: ee0b7192d0d32014ab65b85f5da6743e
       internalID: 1573257126
       vertices: []
       indices: 
@@ -455,7 +455,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9536142956aa1e45a3e638ed9edf3f7
+      spriteID: 4514a7b767e744e45ba1830e3c10db97
       internalID: -1698008093
       vertices: []
       indices: 
@@ -477,30 +477,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcbe3a637a8845645b3fc46dde22b285
+      spriteID: a1247a9d06cb90740a3d6b8d657d58d3
       internalID: 944224266
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: New Piskeltree (1)_17
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 481
-        width: 6986
-        height: 8615
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 59ec47144f8f5c94e981cc82ae6f8d17
-      internalID: 412164825
       vertices: []
       indices: 
       edges: []
@@ -519,7 +497,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":7360.0,"y":9200.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       New Piskeltree (1)_0: 703786783
       New Piskeltree (1)_1: 772659751
@@ -530,7 +508,6 @@ TextureImporter:
       New Piskeltree (1)_14: 1573257126
       New Piskeltree (1)_15: -1698008093
       New Piskeltree (1)_16: 944224266
-      New Piskeltree (1)_17: 412164825
       New Piskeltree (1)_2: -289489755
       New Piskeltree (1)_3: 935561950
       New Piskeltree (1)_4: 2105303961
