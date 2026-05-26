@@ -12534,6 +12534,10 @@ PrefabInstance:
       propertyPath: pauseMenuPanel
       value: 
       objectReference: {fileID: 684310963}
+    - target: {fileID: 8111191417737119713, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1857411628}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22983,6 +22987,11 @@ MeshFilter:
 --- !u!20 &1857411622 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 20437472682476688, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
+  m_PrefabInstance: {fileID: 837686113}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1857411628 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4490257326247362, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
   m_PrefabInstance: {fileID: 837686113}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1861274682
