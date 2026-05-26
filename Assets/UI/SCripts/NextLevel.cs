@@ -6,6 +6,14 @@ public class NextLevel : MonoBehaviour
     [SerializeField] private string sceneName;
     [SerializeField] private int sceneBuildIndex = -1;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GoToSceneByName();
+        }
+    }
+
     // Call from a Button OnClick() (no args) -> choose one of the two inspector-configured methods
     public void GoToSceneByName()
     {
