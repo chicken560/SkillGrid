@@ -183,10 +183,17 @@ PrefabInstance:
       propertyPath: m_Acceleration
       value: 111.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7644499197707017730, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3603621665103153673, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747483634}
   m_SourcePrefab: {fileID: 100100000, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
 --- !u!1 &42439181
 GameObject:
@@ -2017,6 +2024,40 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 49ee89b6e17ade44fb390bdf3da85e3d, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &747483627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3603621665103153673, guid: b352e9aa8021443469f52a511d778e1a, type: 3}
+  m_PrefabInstance: {fileID: 34296572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &747483634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747483627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cc42ba411fe8b54b989c2ba6b4c53a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ai2
+  player: {fileID: 1507181377}
+  chaseDistance: 12
+  loseInterestDistance: 18
+  stoppingDistance: 1.2
+  pathUpdateInterval: 0.35
+  moveSpeed: 10
+  angularSpeed: 120
+  autoBraking: 0
+  endRunOnTouch: 1
+  loadNextSceneOnEnd: 1
+  nextSceneName: GameOver
+  endRunDelay: 0
+  disablePlayerControllerOnEnd: 1
+  onPlayerTouched:
+    m_PersistentCalls:
+      m_Calls: []
+  _isChasing: 0
 --- !u!1 &763727103
 GameObject:
   m_ObjectHideFlags: 0
